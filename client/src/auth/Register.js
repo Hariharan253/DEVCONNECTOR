@@ -36,7 +36,7 @@ const Register = () => {
                 method: 'POST',
                 headers: {
                     'Access-Control-Request-Headers': true,
-                    'Content-Type': 'text/plain',
+                    'Content-Type': 'application/json',
                   },                
                 body: JSON.stringify(newUser)
             };
