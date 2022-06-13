@@ -1,7 +1,11 @@
 import React, { Fragment, useState } from "react";
 //import axios from "axios";
 import { Link } from "react-router-dom";
-const Register = () => {
+import { connect } from "react-redux";
+import setAlert from "../actions/alert";
+import Alert from "./Alert";
+
+const Register = ({ setAlert }) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -16,13 +20,14 @@ const Register = () => {
     e.preventDefault();
 
     if (password !== password2) {
-      console.log("Password Incorrect");
+      setAlert("Password Incorrect", "danger");
     } else {
       console.log("Created");
     }
   };
   return (
     <Fragment>
+      <Alert />
       <form class='form' onSubmit={(e) => onSubmit(e)}>
         <div class='form-group'>
           <input
@@ -81,4 +86,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default connect(null, { setAlert })(Register);

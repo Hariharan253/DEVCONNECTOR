@@ -1,12 +1,12 @@
 // import logo from './logo.svg';
 import "./App.css";
-import React from "react";
-import { Route, Routes } from "react-router-dom";
-import Navbar from "./components/layout/Navbar";
-import Landing from "./components/layout/Landing";
-import Login from "./auth/Login";
-import Register from "./auth/Register";
-import Developers from "./components/layout/Developers";
+import React, { Fragment } from "react";
+// import { Route, Routes } from "react-router-dom";
+// import Navbar from "./components/layout/Navbar";
+// import Landing from "./components/layout/Landing";
+// import Login from "./auth/Login";
+// import Register from "./auth/Register";
+// import Developers from "./components/layout/Developers";
 
 //redux
 import { Provider } from "react-redux";
