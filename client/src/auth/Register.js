@@ -16,8 +16,8 @@ const Register = () => {
         if(password !== password2){
             console.log('Password Incorrect');            
         }
-       else{
-        console.log('Created Successfully');
+       else{ 
+        console.log('Created')
        }
     }
     return(
