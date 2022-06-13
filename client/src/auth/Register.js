@@ -16,40 +16,9 @@ const Register = () => {
         if(password !== password2){
             console.log('Password Incorrect');            
         }
-        else{
-            const newUser = {
-                name,
-                email,
-                password
-            };
-
-            
-            try {
-                const config = {
-                headers:{
-                'Content-Type': 'application/json'
-                }
-            };
-
-
-            const requestOptions = {
-                method: 'POST',
-                headers: {
-                    'Access-Control-Request-Headers': true,
-                    'Content-Type': 'text/plain',
-                  },                
-                body: JSON.stringify(newUser)
-            };
-
-            const body = JSON.stringify(newUser);
-                const res = await fetch('http://localhost:5000/api/users', requestOptions); //No need to give full URL coz we're using proxy for localhost://5000
-            
-                console.log(res);    
-            } catch (err) {
-                console.error(err.message);
-            }
-            
-        }
+       else{
+        console.log('Created Successfully');
+       }
     }
     return(
         <Fragment>
