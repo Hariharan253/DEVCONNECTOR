@@ -62,11 +62,14 @@ router.post(
       company,
       location,
       bio,
+      githubusername,
+      status,
       //// spread the rest of the fields we don't need to check
     } = req.body;
 
     //build Profile
     const profileFields = {
+      status: status,
       user: req.user.id,
       website: website,
       skills: Array.isArray(skills)
@@ -75,16 +78,17 @@ router.post(
       bio: bio,
       company: company,
       location: location,
+      githubusername: githubusername,
     };
 
     // Build socialFields object
     const socialFields = { youtube, twitter, instagram, linkedin, facebook };
 
     // normalize social fields to ensure valid url
-    for (const [key, value] of Object.entries(socialFields)) {
-      if (value && value.length > 0)
-        socialFields[key] = normalize(value, { forceHttps: true });
-    }
+    // for (const [key, value] of Object.entries(socialFields)) {
+    //   if (value && value.length > 0)
+    //     socialFields[key] = normalize(value, { forceHttps: true });
+    // }
 
     profileFields.social = socialFields;
 
@@ -262,7 +266,7 @@ router.put(
 
     try {
       const profile = await Profile.findOne({ user: req.user.id });
-      profile.education.unshift(newEdu);
+      profile.education.unshift(newEdu); //unshift is equivalent to push
       await profile.save();
 
       res.json(profile);
