@@ -41,7 +41,7 @@ const Dashboard = ({
           <div className='container'>
             <div className='row justify-content-center'>
               <div className='col col-lg-12 text-center'>
-                <h1>Dashboard</h1>
+                <h1>Dashboardss</h1>
               </div>
             </div>
             <div className='row justify-content-center mt-4'>
