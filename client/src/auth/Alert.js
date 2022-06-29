@@ -1,14 +1,19 @@
 import React from "react";
-
 import { connect } from "react-redux";
+const Alert = ({ alert }) =>
+  alert !== null &&
+  alert.length > 0 &&
+  alert.map((alerts) => {
+    return (
+      <div key={alert.id}>
+        <h1>{alerts.msg}</h1>
+      </div>
+    );
+  });
 
-const Alert = ({ alerts }) =>
-  alerts !== null &&
-  alerts.length > 0 &&
-  alerts.map((alert) => <div key={alert.id}>{alert.msg}</div>);
 function mapStateToProps(state) {
   return {
-    alerts: state.alert,
+    alert: state.alert,
   };
 }
 

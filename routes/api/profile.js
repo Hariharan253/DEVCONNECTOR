@@ -207,6 +207,55 @@ router.put(
   }
 );
 
+//@route        PUT api/profile/experience/id
+//@description  PUT experience profile
+//@access       Private
+
+router.put(
+  "/experience/:exp_id",
+  [
+    auth,
+    [
+      check("title", "title Is required").notEmpty(),
+      check("company", "company Is required").notEmpty(),
+      check("from", "from Is required").notEmpty(),
+    ],
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { title, company, location, from, to, current, description } =
+      req.body;
+
+    const newExp = {
+      title,
+      company,
+      location,
+      from,
+      to,
+      current,
+      description,
+    };
+
+    try {
+      const profile = await Profile.findOne({ user: req.user.id });
+      const addIndex = profile.experience
+        .map((item) => item.id)
+        .indexOf(req.params.exp_id);
+      profile.experience[addIndex] = newExp;
+      await profile.save();
+
+      res.json(profile);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send("Server Error");
+    }
+  }
+);
+
 //@route        DELETE api/profile/experience/:exp_id
 //@description  DELETE experience profile
 //@access       Private
@@ -266,7 +315,54 @@ router.put(
 
     try {
       const profile = await Profile.findOne({ user: req.user.id });
-      profile.education.unshift(newEdu); //unshift is equivalent to push
+      profile.education.push(newEdu); //unshift is equivalent to push
+      await profile.save();
+
+      res.json(profile);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send("Server Error");
+    }
+  }
+);
+
+router.put(
+  "/education/:edu_id",
+  [
+    auth,
+    [
+      check("school", "school Is required").notEmpty(),
+      check("degree", "degree Is required").notEmpty(),
+      check("fieldofstudy", "fieldofstudy Is required").notEmpty(),
+      check("from", "from is required").notEmpty(),
+    ],
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { school, degree, fieldofstudy, from, to, current, description } =
+      req.body;
+
+    const newEdu = {
+      school,
+      degree,
+      fieldofstudy,
+      from,
+      to,
+      current,
+      description,
+    };
+
+    try {
+      const profile = await Profile.findOne({ user: req.user.id });
+      const index = profile.education
+        .map((item) => item.id)
+        .indexOf(req.params.edu_id);
+      profile.education[index] = newEdu;
+      //profile.education.unshift(newEdu); //unshift is equivalent to push
       await profile.save();
 
       res.json(profile);

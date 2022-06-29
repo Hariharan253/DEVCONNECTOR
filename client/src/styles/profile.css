@@ -1,0 +1,33 @@
+.profile{
+    display:flex;
+    flex-direction: column;
+    padding: 1.5rem;
+    gap:0.6rem;
+    border: thick double #32a1ce;
+    overflow-x:hidden;
+    overflow-y: hidden;
+    /* height: 12rem; */
+
+}
+.profile:hover{
+    box-shadow: 5px 5px 10px;
+}
+.profile .profile-heading{
+    font-size: 28px;
+}
+.margin-right {
+    margin-right: 1.4rem;
+}
+
+.links{
+    text-decoration:dashed;
+}
+
+.links:hover{
+    text-decoration: dashed;
+}
+
+.form-width{
+    width: 70%;
+    height: 40px;
+}

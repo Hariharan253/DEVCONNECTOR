@@ -1,11 +1,11 @@
 import React, { Fragment, useState } from "react";
-//import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
+import "../styles/register.css";
 import { connect } from "react-redux";
-import setAlert from "../actions/alert";
+import setAlert from "../action/alert";
+import { register } from "../action/auth";
 import Alert from "./Alert";
-
-const Register = ({ setAlert }) => {
+const Register = (props) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -13,77 +13,121 @@ const Register = ({ setAlert }) => {
     password2: "",
   });
   const { name, email, password, password2 } = formData;
+  const [id, setId] = useState(0);
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
-
   const onSubmit = async (e) => {
     e.preventDefault();
-
     if (password !== password2) {
-      setAlert("Password Incorrect", "danger");
+      props.setAlert("Incorrect Password", "danger", id);
+      setId(id + 1);
+      console.log("alerts ", props);
     } else {
-      console.log("Created");
+      console.log("name: ", name);
+      props.register({ name, email, password });
+      setTimeout(() => console.log("Alerts ", props), 4000);
+
+      //   console.log(formData);
+      //   const newUser = {
+      //     name,
+      //     email,
+      //     password,
+      //   };
+
+      //   const requestOptions = {
+      //     method: "POST",
+      //     headers: { "Content-Type": "application/json" },
+      //     body: JSON.stringify(newUser),
+      //   };
+
+      //   const res = await fetch(
+      //     "http://localhost:5000/api/users",
+      //     requestOptions
+      //   );
+      //   console.log(res);
+      console.log("User Created");
     }
+    // if (props.auth.  ) {
+    //   console.log("isAuthenticated");
+    //   <Navigate to='dashboard' />;
+    // }
   };
   return (
     <Fragment>
-      <Alert />
-      <form class='form' onSubmit={(e) => onSubmit(e)}>
-        <div class='form-group'>
-          <input
-            type='text'
-            placeholder='Name'
-            name='name'
-            value={name}
-            onChange={(e) => onChange(e)}
-            required
-          />
-        </div>
-        <div class='form-group'>
-          <input
-            type='email'
-            placeholder='Email Address'
-            name='email'
-            value={email}
-            onChange={(e) => onChange(e)}
-            required
-          />
-          <div class='form-text'>
-            This site uses Gravatar so if you want a profile image, use a
-            Gravatar email
+      {props.auth.isAuthenticated === true && (
+        <Navigate to='/dashboard' replace={true} />
+      )}
+      <div className='container'>
+        <div className='row justify-content-center'>
+          <div className='col-lg-6 text-center mb-5'>
+            <Alert />
+          </div>
+          <div className='col-lg-6 text-center'>
+            <form className='form' onSubmit={(e) => onSubmit(e)}>
+              <div className='form-group'>
+                <input
+                  type='name'
+                  placeholder='Enter Name'
+                  name='name'
+                  value={name}
+                  onChange={(e) => onChange(e)}
+                  required
+                />
+              </div>
+
+              <div className='form-group'>
+                <input
+                  type='email'
+                  placeholder='Enter Email'
+                  name='email'
+                  value={email}
+                  onChange={(e) => onChange(e)}
+                  required
+                />
+              </div>
+
+              <div className='form-group'>
+                <input
+                  type='password'
+                  placeholder='Enter Password'
+                  name='password'
+                  value={password}
+                  onChange={(e) => onChange(e)}
+                  required
+                />
+              </div>
+
+              <div className='form-group'>
+                <input
+                  type='password'
+                  placeholder='Check Password'
+                  name='password2'
+                  value={password2}
+                  onChange={(e) => onChange(e)}
+                  required
+                />
+              </div>
+              <div className='form-group'>
+                <button type='submit' className='btn btn-sm btn-primary'>
+                  Submit
+                </button>
+                <p>
+                  Have an Account? <Link to='/login'>login</Link>
+                </p>
+              </div>
+            </form>
           </div>
         </div>
-        <div class='form-group'>
-          <input
-            type='password'
-            placeholder='Password'
-            name='password'
-            value={password}
-            onChange={(e) => onChange(e)}
-            minLength='6'
-            required
-          />
-        </div>
-        <div class='form-group'>
-          <input
-            type='password'
-            placeholder='Confirm Password'
-            name='password2'
-            value={password2}
-            onChange={(e) => onChange(e)}
-            minLength='6'
-            required
-          />
-        </div>
-        <input type='submit' class='btn btn-primary' value='Register' />
-      </form>
-      <div>
-        <p>
-          Already Have A Account? <Link to='/landing/login'>LogIn</Link>
-        </p>
       </div>
     </Fragment>
   );
 };
 
-export default connect(null, { setAlert })(Register);
+function mapStateToProps(state) {
+  return {
+    alerts: state.alert,
+    auth: state.auth,
+  };
+}
+
+export default connect(mapStateToProps, { setAlert, register })(Register);
