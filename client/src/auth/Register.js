@@ -4,6 +4,7 @@ import "../styles/register.css";
 import { connect } from "react-redux";
 import setAlert from "../action/alert";
 import { register } from "../action/auth";
+import CustomerRegister from "./customer-auth/CustomerRegister";
 import Alert from "./Alert";
 const Register = (props) => {
   const [formData, setFormData] = useState({
@@ -26,31 +27,8 @@ const Register = (props) => {
       console.log("name: ", name);
       props.register({ name, email, password });
       setTimeout(() => console.log("Alerts ", props), 4000);
-
-      //   console.log(formData);
-      //   const newUser = {
-      //     name,
-      //     email,
-      //     password,
-      //   };
-
-      //   const requestOptions = {
-      //     method: "POST",
-      //     headers: { "Content-Type": "application/json" },
-      //     body: JSON.stringify(newUser),
-      //   };
-
-      //   const res = await fetch(
-      //     "http://localhost:5000/api/users",
-      //     requestOptions
-      //   );
-      //   console.log(res);
       console.log("User Created");
     }
-    // if (props.auth.  ) {
-    //   console.log("isAuthenticated");
-    //   <Navigate to='dashboard' />;
-    // }
   };
   return (
     <Fragment>
@@ -58,11 +36,11 @@ const Register = (props) => {
         <Navigate to='/dashboard' replace={true} />
       )}
       <div className='container'>
-        <div className='row justify-content-center'>
-          <div className='col-lg-6 text-center mb-5'>
+        <div className='row'>
+          {/* <div className='col-lg-6 col-md-6 col-sm-6 mb-5'>
             <Alert />
-          </div>
-          <div className='col-lg-6 text-center'>
+          </div> */}
+          <div className='col-lg-6 col-md-6 col-sm-6'>
             <form className='form' onSubmit={(e) => onSubmit(e)}>
               <div className='form-group'>
                 <input
@@ -116,6 +94,9 @@ const Register = (props) => {
                 </p>
               </div>
             </form>
+          </div>
+          <div className='col-lg-6 col-md-6 col-sm-6'>
+            <CustomerRegister />
           </div>
         </div>
       </div>

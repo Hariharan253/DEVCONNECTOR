@@ -18,7 +18,7 @@ const Navbar = (props) => {
       </p>
       {"     "}
       <p>
-        <Link to='/register'>Register</Link>
+        <Link to='/register'>Registers</Link>
       </p>
       {"    "}
       <p>
@@ -39,7 +39,19 @@ const Navbar = (props) => {
       </div>
     </Fragment>
   );
-  const { loading, isAuthenticated } = props.auth;
+  const customerAuthLinks = (
+    <Fragment>
+      <div className='navbar-links'>
+        <div>
+          <Link to='/my-job-lists'>Job List</Link>
+        </div>
+        <div>
+          <a onClick={props.logOut}>LogOut</a>
+        </div>
+      </div>
+    </Fragment>
+  );
+  const { loading, isAuthenticated, user } = props.auth;
   return (
     <Fragment>
       <div className='container'>
@@ -49,9 +61,19 @@ const Navbar = (props) => {
               <Link to='/dashboard'>
                 <h1>Navbar</h1>
               </Link>
-              {!loading && (
-                <Fragment>{isAuthenticated ? authLinks : guestLinks}</Fragment>
-              )}
+              <Fragment>
+                {user !== null ? (
+                  <Fragment>
+                    {isAuthenticated && !loading ? authLinks : guestLinks}
+                  </Fragment>
+                ) : (
+                  <Fragment>
+                    {isAuthenticated && !loading
+                      ? customerAuthLinks
+                      : guestLinks}
+                  </Fragment>
+                )}
+              </Fragment>
             </div>
           </div>
         </div>

@@ -1,30 +1,28 @@
-//Creates Auth token
-
-//creates user
-
 const express = require("express");
 const router = express.Router();
 const auth = require("../../middleware/auth");
-const User = require("../../models/User");
+const Customer = require("../../models/Customer");
 const bcrypt = require("bcryptjs");
 const { check, validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
 const config = require("config");
 
-//@route        GET api/auth
+//@route        GET api/customers-auth
 //@description  Test route
 //@access       Private
+
 router.get("/", auth, async (req, res) => {
   try {
-    const user = await User.findById(req.user.id).select("-password");
-    res.json(user);
+    const customerId = req.user.id;
+    const customer = await Customer.findById(customerId).select("-password");
+    res.json(customer);
   } catch (err) {
-    console.error(err.message);
+    console.log(err);
     res.status(500).send("Server Error");
   }
 });
 
-//@route        POST api/auth
+//@route        POST api/customers-auth
 //@description  LogiIn User and get token
 //@access       Public
 
@@ -42,29 +40,22 @@ router.post(
 
     const { email, password } = req.body;
     try {
-      // see if user exist
-      let user = await User.findOne({ email });
-
-      if (!user) {
-        return res
-          .status(400)
-          .json({ error: [{ msg: "Invalid Credentials" }] });
+      const customer = await Customer.findOne({ email });
+      // return customer;
+      if (!customer) {
+        res.status(400).json({ error: [{ msg: "Invalid Credentials" }] });
       }
 
-      //check password correct
-      const isMatch = await bcrypt.compare(password, user.password);
-
+      const isMatch = await bcrypt.compare(password, customer.password);
       if (!isMatch) {
         return res
           .status(400)
           .json({ error: [{ msg: "Invalid Credentials" }] });
       }
 
-      //return jsonWebToken
-
       const payload = {
         user: {
-          id: user.id,
+          id: customer.id,
         },
       };
 
@@ -74,13 +65,12 @@ router.post(
         { expiresIn: 36000 },
         (err, token) => {
           if (err) throw err;
-          return res.json({ token });
+          return res.status(200).json({ token });
         }
       );
-
-      // res.send('User Registered');
     } catch (err) {
-      res.status(500).send(err.message);
+      console.log(err);
+      return res.status(500).send("Server Error");
     }
   }
 );

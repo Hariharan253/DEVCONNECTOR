@@ -4,6 +4,7 @@ import "../styles/register.css";
 import { login } from "../action/auth";
 import { connect } from "react-redux";
 import Alert from "./Alert";
+import CustomerLogin from "./customer-auth/CustomerLogin";
 
 const Login = (props) => {
   const [formData, setFormData] = useState({
@@ -33,7 +34,8 @@ const Login = (props) => {
       <Alert />
       <div className='container'>
         <div className='row justify-row-center'>
-          <div className='col-xs-1 text-center'>
+          <div className='col-md-6 col-lg-4 col-sm-6'>
+            <h5>User Login</h5>
             <form className='form' onSubmit={(e) => onSubmit(e)}>
               <div className='form-group'>
                 <input
@@ -61,11 +63,19 @@ const Login = (props) => {
                 <button type='submit' className='btn btn-sm btn-primary'>
                   Submit
                 </button>
-                <p>
-                  Don't Have an Account? <Link to='/register'>Sign Up</Link>
-                </p>
               </div>
             </form>
+          </div>
+          <div className='col-md-6 col-lg-4 col-sm-6'>
+            <h5>Customer Login</h5>
+            <CustomerLogin />
+          </div>
+        </div>
+        <div className='row'>
+          <div className='col col-lg-6 text-center'>
+            <p className='text-center'>
+              Don't Have an Account? <Link to='/register'>Sign Up</Link>
+            </p>
           </div>
         </div>
       </div>

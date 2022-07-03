@@ -15,8 +15,10 @@ const Dashboard = ({
   deleteProfile,
 }) => {
   useEffect(() => {
-    console.log("Entered useEffect in Dashboard");
-    getCurrentProfile();
+    if (auth.user !== null) {
+      getCurrentProfile();
+      console.log("Entered useEffect in Dashboard");
+    }
   }, []);
   const navigate = useNavigate();
   const onClick = () => {
@@ -27,74 +29,149 @@ const Dashboard = ({
   //const { isAuthenticated, loading } = auth;
   return (
     <Fragment>
-      {loading && profile === null ? (
-        <Spinner />
-      ) : (
+      {auth.user !== null ? (
         <Fragment>
-          <div className='container'>
-            <div className='row'>
-              <div className='col col-lg-12 col-md-12 bg-success text-warning'>
-                <Alert />
+          {loading && profile === null ? (
+            <Spinner />
+          ) : (
+            <Fragment>
+              <div className='container'>
+                <div className='row'>
+                  <div className='col col-lg-12 col-md-12 bg-success text-warning'>
+                    <Alert />
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-          <div className='container'>
-            <div className='row justify-content-center'>
-              <div className='col col-lg-12 text-center'>
-                <h1>Dashboard</h1>
-              </div>
-            </div>
-            <div className='row justify-content-center mt-4'>
-              <div className='col col-lg-12'>
-                <h4>User Loaded</h4>
-              </div>
-            </div>
-            <div className='row justify-content-center mt-4'>
-              <div className='col col-lg-12 '>
-                {auth.user !== null && <h5>UserName: {auth.user.name}</h5>}
-              </div>
-            </div>
-            {profile !== null ? (
-              <Fragment>
+              <div className='container'>
+                <div className='row justify-content-center'>
+                  <div className='col col-lg-12 text-center'>
+                    <h1>Dashboard</h1>
+                  </div>
+                </div>
                 <div className='row justify-content-center mt-4'>
                   <div className='col col-lg-12'>
-                    <Link to='/edit-profile'>
-                      <button className='btn btn-sm btn-warning margin-right'>
-                        Edit Profile
-                      </button>
-                    </Link>
-
-                    <Link to='/add-experience'>
-                      <button className='btn btn-sm btn-success margin-right'>
-                        Add Experience
-                      </button>
-                    </Link>
-                    <Link to='/add-education'>
-                      <button className='btn btn-sm btn-success margin-right'>
-                        Add Education
-                      </button>
-                    </Link>
+                    <h4>User Loaded</h4>
                   </div>
                 </div>
                 <div className='row justify-content-center mt-4'>
                   <div className='col col-lg-12 '>
-                    <button
-                      className='btn btn-sm btn-danger margin-right'
-                      onClick={() => onClick()}
-                    >
-                      Delete Profile
-                    </button>
+                    {auth.user !== null && <h5>UserName: {auth.user.name}</h5>}
                   </div>
                 </div>
-              </Fragment>
-            ) : (
-              <Link to='/create-profile'>
-                <button className='btn btn-sm btn-success'>
-                  Create Profile
-                </button>
-              </Link>
-            )}
-          </div>
+                {profile !== null ? (
+                  <Fragment>
+                    <div className='row justify-content-center mt-4'>
+                      <div className='col col-lg-12'>
+                        <Link to='/edit-profile'>
+                          <button className='btn btn-sm btn-warning margin-right'>
+                            Edit Profile
+                          </button>
+                        </Link>
+
+                        <Link to='/add-experience'>
+                          <button className='btn btn-sm btn-success margin-right'>
+                            Add Experience
+                          </button>
+                        </Link>
+                        <Link to='/add-education'>
+                          <button className='btn btn-sm btn-success margin-right'>
+                            Add Education
+                          </button>
+                        </Link>
+                      </div>
+                    </div>
+                    <div className='row justify-content-center mt-4'>
+                      <div className='col col-lg-12 '>
+                        <button
+                          className='btn btn-sm btn-danger margin-right'
+                          onClick={() => onClick()}
+                        >
+                          Delete Profile
+                        </button>
+                      </div>
+                    </div>
+                  </Fragment>
+                ) : (
+                  <Link to='/create-profile'>
+                    <button className='btn btn-sm btn-success'>
+                      Create Profile
+                    </button>
+                  </Link>
+                )}
+              </div>
+            </Fragment>
+          )}
+        </Fragment>
+      ) : (
+        <Fragment>
+          <Fragment>
+            <div className='container'>
+              <div className='row'>
+                <div className='col col-lg-12 col-md-12 bg-success text-warning'>
+                  <Alert />
+                </div>
+              </div>
+            </div>
+            <div className='container'>
+              <div className='row justify-content-center'>
+                <div className='col col-lg-12 text-center'>
+                  <h1>Customer Dashboard</h1>
+                </div>
+              </div>
+              <div className='row justify-content-center mt-4'>
+                <div className='col col-lg-12'>
+                  <h4>Customer Loaded</h4>
+                </div>
+              </div>
+              <div className='row justify-content-center mt-4'>
+                <div className='col col-lg-12 '>
+                  {auth.customer !== null && (
+                    <h5>Customer Name: {auth.customer.name}</h5>
+                  )}
+                </div>
+              </div>
+              {profile !== null ? (
+                <Fragment>
+                  <div className='row justify-content-center mt-4'>
+                    <div className='col col-lg-12'>
+                      <Link to='/edit-profile'>
+                        <button className='btn btn-sm btn-warning margin-right'>
+                          Edit Profile
+                        </button>
+                      </Link>
+
+                      <Link to='/add-experience'>
+                        <button className='btn btn-sm btn-success margin-right'>
+                          Add Experience
+                        </button>
+                      </Link>
+                      <Link to='/add-education'>
+                        <button className='btn btn-sm btn-success margin-right'>
+                          Add Education
+                        </button>
+                      </Link>
+                    </div>
+                  </div>
+                  <div className='row justify-content-center mt-4'>
+                    <div className='col col-lg-12 '>
+                      <button
+                        className='btn btn-sm btn-danger margin-right'
+                        onClick={() => onClick()}
+                      >
+                        Delete Profile
+                      </button>
+                    </div>
+                  </div>
+                </Fragment>
+              ) : (
+                <Link to='/create-job'>
+                  <button className='btn btn-sm btn-success mt-3'>
+                    Add a New Job
+                  </button>
+                </Link>
+              )}
+            </div>
+          </Fragment>
         </Fragment>
       )}
     </Fragment>
