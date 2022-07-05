@@ -8,7 +8,7 @@ import {
 } from "../../../action/customer/navigationPage/navigationPage";
 const CreateJob = ({
   enableNavigation,
-  temporary: { tempExperienceJob },
+  temporary,
   removeTempExperienceForJob,
 }) => {
   const [formData, setFormData] = useState({
@@ -44,6 +44,12 @@ const CreateJob = ({
     // disableNavigation();
   };
 
+  const onClickEditEducation = () => {
+    enableNavigation("create-job");
+    navigate("/edit-job-education");
+  };
+  
+
   const onClickAddExperience = () => {
     enableNavigation("create-job");
     navigate("/add-job-experience"); //expriences required for the job
@@ -54,6 +60,8 @@ const CreateJob = ({
     enableNavigation("create-job");
     navigate("/edit-job-experience");
   };
+
+  
 
   return (
     <Fragment>
@@ -67,17 +75,25 @@ const CreateJob = ({
             <h6 className='text-dark'>* = Required</h6>
           </div>
           <div className='col col-lg-12 col-md-12 col-sm-12'>
-            <button
-              className='btn btn-success btn-sm'
-              onClick={() => onClickAddEducation()}
-            >
-              Add the required Education
-            </button>
+            {temporary.tempEducationJob === null ? (
+              <button
+                className='btn btn-success btn-sm'
+                onClick={() => onClickAddEducation()}
+              >
+                Add the required Education
+              </button>
+            ) : (
+              <button
+                className='btn btn-warning btn-sm'
+                onClick={() => onClickEditEducation()}
+              >
+                Edit the required Education
+              </button>
+            )}
           </div>
           <Fragment>
-            {}
             <div className='col col-lg-12 col-md-12 col-sm-12'>
-              {tempExperienceJob === null ? (
+              {temporary === null ? (
                 <button
                   className='btn btn-success btn-sm mt-3'
                   onClick={() => onClickAddExperience()}

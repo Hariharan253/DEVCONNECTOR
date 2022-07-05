@@ -7,17 +7,14 @@ const AddEducationJob = ({
   navigationPage: { pageToNavigate },
   disableNavigation,
   setTempEducationForJob,
+  temporary,
 }) => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    school: "",
-    degree: "",
-    fieldofstudy: "",
-    from: "",
-    to: "",
-    current: "",
-    description: "",
+    degree: temporary.tempEducationJob.degree,
+    fieldofstudy: temporary.tempEducationJob.fieldofstudy,
+    description: temporary.tempEducationJob.description,
   });
   const { degree, fieldofstudy, description } = formData;
 
@@ -34,9 +31,7 @@ const AddEducationJob = ({
   const onSubmit = (e) => {
     //console.log("pageToNavigate:", pageToNavigate);
     e.preventDefault();
-
     const res = setTempEducationForJob(formData);
-
     navigate(`/${pageToNavigate}`);
     disableNavigation();
   };
@@ -119,6 +114,7 @@ const AddEducationJob = ({
 const mapStateToProps = (state) => {
   return {
     navigationPage: state.navigationPage,
+    temporary: state.temporary,
   };
 };
 

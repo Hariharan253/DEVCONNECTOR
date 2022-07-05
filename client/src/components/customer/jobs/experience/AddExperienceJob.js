@@ -31,6 +31,7 @@ const AddExperienceJob = ({
     e.preventDefault();
     const res = setTempExperienceForJob(formData);
     navigate(`/${pageToNavigate}`);
+    disableNavigation();
   };
 
   const goBack = () => {

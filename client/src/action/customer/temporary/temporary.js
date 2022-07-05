@@ -17,3 +17,17 @@ export const removeTempExperienceForJob = () => (dispatch) => {
     type: REMOVE_TEMP_EXPERIENCE_JOB,
   });
 };
+
+export const setTempEducationForJob = (formData) => (dispatch) => {
+  console.log("Entered ", setTempEducationForJob);
+  dispatch({
+    type: SET_TEMP_EDUCATION_JOB,
+    payload: formData,
+  });
+};
+
+export const removeTempEducationForJob = () => (dispatch) => {
+  dispatch({
+    type: REMOVE_TEMP_EDUCATION_JOB,
+  });
+};
