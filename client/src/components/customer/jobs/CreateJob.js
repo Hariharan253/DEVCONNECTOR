@@ -1,11 +1,16 @@
 import { Fragment, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
+import { removeTempExperienceForJob } from "../../../action/customer/temporary/temporary";
 import {
   disableNavigation,
   enableNavigation,
 } from "../../../action/customer/navigationPage/navigationPage";
-const CreateJob = ({ enableNavigation, disableNavigation }) => {
+const CreateJob = ({
+  enableNavigation,
+  temporary: { tempExperienceJob },
+  removeTempExperienceForJob,
+}) => {
   const [formData, setFormData] = useState({
     school: "",
     degree: "",
@@ -45,6 +50,11 @@ const CreateJob = ({ enableNavigation, disableNavigation }) => {
     // disableNavigation();
   };
 
+  const onClickEditExperience = () => {
+    enableNavigation("create-job");
+    navigate("/edit-job-experience");
+  };
+
   return (
     <Fragment>
       <div className='container'>
@@ -64,14 +74,26 @@ const CreateJob = ({ enableNavigation, disableNavigation }) => {
               Add the required Education
             </button>
           </div>
-          <div className='col col-lg-12 col-md-12 col-sm-12'>
-            <button
-              className='btn btn-success btn-sm mt-3'
-              onClick={() => onClickAddExperience()}
-            >
-              Add the required Experience
-            </button>
-          </div>
+          <Fragment>
+            {}
+            <div className='col col-lg-12 col-md-12 col-sm-12'>
+              {tempExperienceJob === null ? (
+                <button
+                  className='btn btn-success btn-sm mt-3'
+                  onClick={() => onClickAddExperience()}
+                >
+                  Add the required Experience
+                </button>
+              ) : (
+                <button
+                  className='btn btn-warning btn-sm mt-3'
+                  onClick={() => onClickEditExperience()}
+                >
+                  Edit the Added Experience
+                </button>
+              )}
+            </div>
+          </Fragment>
           <div className='col col-md-12 col-lg-12 col-sm-12 mt-4'>
             <div className='row'>
               <div className='col col-md-12 col-lg-12 col-sm-12'>
@@ -188,6 +210,14 @@ const CreateJob = ({ enableNavigation, disableNavigation }) => {
   );
 };
 
-export default connect(null, { enableNavigation, disableNavigation })(
-  CreateJob
-);
+const mapStateToProps = (state) => {
+  return {
+    temporary: state.temporary,
+  };
+};
+
+export default connect(mapStateToProps, {
+  enableNavigation,
+  disableNavigation,
+  removeTempExperienceForJob,
+})(CreateJob);

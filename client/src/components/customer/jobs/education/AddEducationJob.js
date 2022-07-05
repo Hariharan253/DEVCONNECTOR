@@ -19,7 +19,7 @@ const AddEducationJob = ({
     <Fragment>
       <h1>Add Education Enabled</h1>
       <button className='btn btn-sm btn-success ml-2' onClick={() => goBack()}>
-        Go Back
+        Submit
       </button>
     </Fragment>
   );
